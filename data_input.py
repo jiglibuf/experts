@@ -1,10 +1,9 @@
 import streamlit as st
 
 from dao import BaseDAO
-from replacements import Replacements
 
 class DataInput:
-    def __init__(self, required_fields=None):
+    def __init__(self):
         self.kn_input_value = ""
         self.kc_input_value = ""
         self.kc_selected_value = ""
@@ -13,7 +12,8 @@ class DataInput:
         self.request_date_value = None
         self.email = ""
         self.docname = ""
-        self.required_fields = required_fields if required_fields is not None else []
+        self.required_fields = ['kn_input_value', 'fio_input_value', 'num_request_input_value', 'request_date_value']
+
 
     def get_input_values(self):
         self.kn_input_value = st.text_input("Введите Кадастровый номер", self.kn_input_value)
@@ -35,7 +35,8 @@ class DataInput:
         replacements_obj.update('<ФИО>', self.fio_input_value)
         replacements_obj.update('<НомерЗаявления>', self.num_request_input_value)
         replacements_obj.update('<ДатаПоступленияЗаявления>', self.request_date_value.strftime('%d.%m.%Y'))
-        replacements_obj.update('<Почта>', self.email)
+        # replacements_obj.update('<Почта>', self.email)
+        replacements_obj.update_email(self.email)
         replacements_obj.update_docname(self.docname)
 
     def get_selected_kc(self):

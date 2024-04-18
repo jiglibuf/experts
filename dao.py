@@ -63,7 +63,7 @@ class BaseDAO:
         ORDER BY data.datefound DESC, data.datetime DESC;'''
         query_result = cls.execute_sql_query(query, conn)# результат запроса
         conn.close()
-        print(query_result)
+        # print(query_result)
         # Получаем результаты запроса
         
         # Преобразуем результаты в датафрейм

@@ -70,3 +70,8 @@ https://gko.kamgov.ru/ocenka2023.php''')
         if not self.replacements.docname:
             # тут нужно вывести сообщение об ошибке
             pass
+    def update_replacements(self):
+        self.get_osnovanie()
+        self.process_p_2()
+        self.process_p_3()
+        self.process_p_4()

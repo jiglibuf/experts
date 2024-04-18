@@ -8,6 +8,7 @@ class Replacements:
         self.request_date_value = ''
         self.email = ''
         self.docname = ''
+        self.template_path = ''
         self.conditions = {}  # Словарь для условий
 
     def update(self, key, value=None, anchor=None):
@@ -27,6 +28,7 @@ class Replacements:
             '<НомерЗаявления>': self.num_request_input_value,
             '<ДатаПоступленияЗаявления>': self.request_date_value,
             '<Почта>': self.email,
+            '<template_path>': self.template_path,
             **self.conditions  # Добавляем условия в словарь
         }
     def update_conditions(self, condition_to_update, anchor=None):
@@ -42,3 +44,9 @@ class Replacements:
             
     def update_docname(self, docname):
         self.docname = docname
+
+    def update_email(self, email):
+        self.email = email
+
+    def update_template_path(self, template_path):
+        self.template_path = template_path
