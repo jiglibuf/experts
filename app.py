@@ -41,6 +41,7 @@ def main():
         data_processor.update_replacements()
         st.write(replacements.kn_input_value)
         data_excel_hoarder.update_replacements()
+        replacements.replace_decimal_points()
         replacements_dict = replacements.as_dict()
         st.write(replacements_dict)
         template_path = replacements_dict['<template_path>']

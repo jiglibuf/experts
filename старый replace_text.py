@@ -1,6 +1,13 @@
-
-
 def replace_text(doc, replacements):
+    def replace_anchors(text):
+        # Шаблон для поиска якорей
+        pattern = r'<[^>]*>'
+
+        # Заменяем все найденные якоря на пустую строку
+        replaced_text = re.sub(pattern, '', text)
+
+        return replaced_text
+
     # Заменяем текст в колонтитулах
     for section in doc.sections:
         if section.header is not None:
@@ -12,6 +19,13 @@ def replace_text(doc, replacements):
                             run.clear()
                         new_run = paragraph.add_run(new_text)
                         apply_text_style(new_run, paragraph.runs[0].font)
+                
+                # Заменяем якоря в тексте параграфа
+                new_text = replace_anchors(paragraph.text)
+                for run in paragraph.runs:
+                    run.clear()
+                new_run = paragraph.add_run(new_text)
+                apply_text_style(new_run, paragraph.runs[0].font)
 
         if section.footer is not None:
             for paragraph in section.footer.paragraphs:
@@ -23,6 +37,13 @@ def replace_text(doc, replacements):
                         new_run = paragraph.add_run(new_text)
                         apply_text_style(new_run, paragraph.runs[0].font)
 
+                # Заменяем якоря в тексте параграфа
+                new_text = replace_anchors(paragraph.text)
+                for run in paragraph.runs:
+                    run.clear()
+                new_run = paragraph.add_run(new_text)
+                apply_text_style(new_run, paragraph.runs[0].font)
+
     # Заменяем текст в основном тексте документа
     for paragraph in doc.paragraphs:
         for key, value in replacements.items():
@@ -32,6 +53,13 @@ def replace_text(doc, replacements):
                     run.clear()
                 new_run = paragraph.add_run(new_text)
                 apply_text_style(new_run, paragraph.runs[0].font)
+
+        # Заменяем якоря в тексте параграфа
+        new_text = replace_anchors(paragraph.text)
+        for run in paragraph.runs:
+            run.clear()
+        new_run = paragraph.add_run(new_text)
+        apply_text_style(new_run, paragraph.runs[0].font)
 
     # Заменяем текст в якорях таблиц
     for table in doc.tables:
@@ -45,6 +73,13 @@ def replace_text(doc, replacements):
                                 run.clear()
                             new_run = paragraph.add_run(new_text)
                             apply_text_style(new_run, paragraph.runs[0].font)
+
+                    # Заменяем якоря в тексте параграфа
+                    new_text = replace_anchors(paragraph.text)
+                    for run in paragraph.runs:
+                        run.clear()
+                    new_run = paragraph.add_run(new_text)
+                    apply_text_style(new_run, paragraph.runs[0].font)
 
     # Удаление пустых строк
     for paragraph in doc.paragraphs:

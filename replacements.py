@@ -1,3 +1,6 @@
+
+
+
 class Replacements:
     def __init__(self):
         self.kn_input_value = ''
@@ -22,7 +25,7 @@ class Replacements:
     def as_dict(self):
         return {
             '<КадастровыйНомер>': self.kn_input_value,
-            '<КадастроваяСтоимость>': self.kc_input_value,
+            '<КадастроваяСтоимостьОбращения>': self.kc_input_value,
             '<АкутальнаяКС>': self.kc_selected_value,
             '<ФИО>': self.fio_input_value,
             '<НомерЗаявления>': self.num_request_input_value,
@@ -50,3 +53,15 @@ class Replacements:
 
     def update_template_path(self, template_path):
         self.template_path = template_path
+
+    def replace_decimal_points(self):
+        for key, value in self.conditions.items():
+            if value.isdigit() and len(value) > 1 and value[0] == '0':
+                    # Если значение состоит из цифр и начинается с нуля, оставляем его без изменений
+                    pass
+            elif isinstance(value, str) and '.' in value and value.count('.') == 1:
+            # if isinstance(value, str) and '.' in value and value.count('.') == 1 and not self.is_date(value):
+                # Если значение является строкой, содержит одну точку и не является датой, заменяем точку на запятую
+                self.conditions[key] = value.replace('.', ',')
+            
+            

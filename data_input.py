@@ -30,7 +30,7 @@ class DataInput:
 
     def update_replacements(self, replacements_obj):
         replacements_obj.update('<КадастровыйНомер>', self.kn_input_value)
-        replacements_obj.update('<КадастроваяСтоимость>', self.kc_input_value.replace(' ', '').replace('.', ','))
+        replacements_obj.update('<КадастроваяСтоимостьОбращения>', self.kc_input_value.replace(' ', '').replace('.', ','))
         replacements_obj.update('<АкутальнаяКС>', self.kc_selected_value)
         replacements_obj.update('<ФИО>', self.fio_input_value)
         replacements_obj.update('<НомерЗаявления>', self.num_request_input_value)
@@ -42,7 +42,7 @@ class DataInput:
     def get_selected_kc(self):
         selected_kc = st.selectbox('Выберите стоимость', BaseDAO.get_all_kc(self.kn_input_value))
         if selected_kc:
-            self.kc_selected_value = str(selected_kc[0]).replace('.',',')
+            self.kc_selected_value = str(selected_kc[0]).replace(' ', '').replace('.', ',')
             self.docname = str(selected_kc[1])
 
     def show_actual_kc(self):
