@@ -7,11 +7,15 @@ class Replacements:
         self.kc_input_value = ''
         self.kc_selected_value = ''
         self.fio_input_value = ''
-        self.num_request_input_value = ''
+        self.num_request_value = ''
+        self.num_incoming_input_value = ''
         self.request_date_value = ''
         self.email = ''
         self.docname = ''
         self.template_path = ''
+        self.fio_representative_input_value = ''
+        self.request_adress = ''
+
         self.conditions = {}  # Словарь для условий
 
     def update(self, key, value=None, anchor=None):
@@ -22,14 +26,21 @@ class Replacements:
         else:
             self.conditions[key] = value
 
+    def update_attributes(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
     def as_dict(self):
         return {
             '<КадастровыйНомер>': self.kn_input_value,
             '<КадастроваяСтоимостьОбращения>': self.kc_input_value,
             '<АкутальнаяКС>': self.kc_selected_value,
             '<ФИО>': self.fio_input_value,
-            '<НомерЗаявления>': self.num_request_input_value,
+            '<НомерЗаявления>': self.num_request_value,
+            '<НомерВходящего>': self.num_incoming_input_value,
             '<ДатаПоступленияЗаявления>': self.request_date_value,
+            '<Представитель>': self.fio_representative_input_value,
+            '<АдресЗаявителя>': self.request_adress,
             '<Почта>': self.email,
             '<template_path>': self.template_path,
             **self.conditions  # Добавляем условия в словарь
@@ -64,4 +75,4 @@ class Replacements:
                 # Если значение является строкой, содержит одну точку и не является датой, заменяем точку на запятую
                 self.conditions[key] = value.replace('.', ',')
             
-            
+    

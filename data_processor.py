@@ -10,12 +10,14 @@ class DataProcessor:
     #     return self.replacements_dict
 
     def process_p_3(self):  
-        if self.replacements.conditions['<КадастроваяСтоимостьОбращения>'] == '':
+        # if self.replacements.conditions['<КадастроваяСтоимостьОбращения>'] == '':
+        if self.replacements.kc_input_value == '':
                 self.replacements.update_conditions('<Условие3_1>')
                 self.replacements.update_conditions('<Условие3_2>', anchor ='')
                 self.replacements.update_conditions('<Условие3_3>', anchor ='')
         else:
-            if self.replacements.conditions['<АкутальнаяКС>'] == self.replacements.conditions['<КадастроваяСтоимостьОбращения>']:
+            # if self.replacements.conditions['<АкутальнаяКС>'] == self.replacements.conditions['<КадастроваяСтоимостьОбращения>']:
+            if self.replacements.kc_selected_value == self.replacements.kc_input_value:
                 self.replacements.update_conditions('<Условие3_2>')
                 self.replacements.update_conditions('<Условие3_1>', anchor ='')
                 self.replacements.update_conditions('<Условие3_3>', anchor ='')
