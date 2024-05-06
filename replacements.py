@@ -70,7 +70,7 @@ class Replacements:
             if value.isdigit() and len(value) > 1 and value[0] == '0':
                     # Если значение состоит из цифр и начинается с нуля, оставляем его без изменений
                     pass
-            elif isinstance(value, str) and '.' in value and value.count('.') == 1:
+            elif isinstance(value, str) and '.' in value and value.count('.') == 1 and value[-1] != '.':
             # if isinstance(value, str) and '.' in value and value.count('.') == 1 and not self.is_date(value):
                 # Если значение является строкой, содержит одну точку и не является датой, заменяем точку на запятую
                 self.conditions[key] = value.replace('.', ',')

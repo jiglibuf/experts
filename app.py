@@ -32,10 +32,10 @@ def main():
     print(replacements.kc_selected_value)
     print(replacements.kn_input_value)
     # Создаем экземпляр класса DataProcessor
+    data_excel_hoarder = ExcelHoarder(replacements)
     data_processor = DataProcessor(replacements)
  
 
-    data_excel_hoarder = ExcelHoarder(replacements)
     
     # Кнопка для замены данных в шаблоне
     if st.button("Заменить данные в шаблоне"):

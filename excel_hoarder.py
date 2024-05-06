@@ -14,12 +14,13 @@ class ExcelHoarder:
         self.foundation_year = ''
         self.kn_zu = ''
         self.type_p = ''
-        print(self.replacements.docname)
+        self.template_path = ''
         # Read the Excel file
         try:
             self.data = pd.read_excel('данные\Расчеты\ЗП НЗ_ЗП ЖЗ_ЗП ОНС.xlsx', dtype= object ,decimal=',', header=0)
             self.template_path_data = pd.read_excel('данные\Способ определения.xlsx')
-            self.register_data = pd.read_excel(r'данные\06-08 Журнал регистрации Разъяснений.xlsx', header=1)
+            # self.register_data = pd.read_excel(r'данные\06-08 Журнал регистрации Разъяснений.xlsx', header=1)
+            self.market_analyst= pd.read_excel(r'данные\Анализ рынка.xlsx', header=1)
         except FileNotFoundError:
             print("File not found. Please check the file path.")
 
@@ -33,14 +34,14 @@ class ExcelHoarder:
 ДП склад''','''ЗП НЗ 
 ДП офис-торг''','''ЗП НЗ 
 ДП производство''']:
-                template_path = 'данные\Шаблоны РЗ\РЗ-НЗ_ЖЗ_ГСК.docx'
+                self.template_path = 'данные\Шаблоны РЗ\РЗ-НЗ_ЖЗ_ГСК.docx'
             elif model in ['ЗП ОНС']:
-                template_path = 'данные\Шаблоны РЗ\Ответ РЗ-ОНС.docx'
+                self.template_path = 'данные\Шаблоны РЗ\Ответ РЗ-ОНС.docx'
             else:
                 print('Нет шаблона')
             if not match.empty:
                 self.replacements.update_conditions('<Модель определения>',model)
-                self.replacements.update_template_path(template_path)
+                self.replacements.update_template_path(self.template_path)
             else:
                 print('Пусто в template_path_data по этому кн')
 
@@ -84,6 +85,20 @@ class ExcelHoarder:
             self.replacements.update_conditions('<Кадастровый номер земельного участка>',anchor='-')
 
     def process_p_5(self):
+        if self.template_path == 'данные\Шаблоны РЗ\РЗ-НЗ_ЖЗ_ГСК.docx':
+            if 'Назначение объекта недвижимости ' in self.market_analyst.columns:
+                # Find rows where 'Кадастровый номер' matches kn_input_value
+                matches = self.market_analyst.loc[self.market_analyst['Назначение объекта недвижимости '] == self.replacements.conditions['<Сегмент+Типовая зона>']]
+                # Check if there are any matches
+                if not matches.empty:
+                    # if self.market_analyst['Назначение объекта недвижимости '] == self.replacements.conditions['Сегмент+Типовая зона']:
+                    t = str(matches.iloc[0]['В анализ рынка'])
+                    self.replacements.update_conditions('<Решения>', anchor=f'''Удельный показатель кадастровой стоимости объекта недвижимости                                        в размере {self.replacements.conditions['<УПКС 2023>']} руб./кв.м. входит в диапазон рынка недвижимости объектов {t}''')
+                else:
+                    # self.replacements.update_conditions('<Решения>', anchor=f'''производственного назначения, за исключением передаточных устройств и сооружений Петропавловск-Камчатского городского округа, который находится в границах от 5 175,80 до 156 739,81 руб./кв.м., что ниже среднего значения ХХХ''')
+                    
+                    self.replacements.update_conditions('<Решения>', anchor=f'''Расчёт кадастровой стоимости соответствует требованиям Методических указаний.''')
+        
         if self.replacements.conditions['<Справочник>'] =='УПВС':
             self.replacements.update_conditions('<воспроизводство/замещение>',anchor='воспроизводство')
         if self.replacements.conditions['<Справочник>'] =='КО-ИНВЕСТ':
