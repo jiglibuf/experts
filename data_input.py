@@ -1,3 +1,4 @@
+import re
 import streamlit as st
 
 from dao import BaseDAO
@@ -45,8 +46,8 @@ class DataInput:
         replacements_obj.update_attributes(kn_input_value = self.kn_input_value)
         replacements_obj.update_attributes(kc_input_value = self.kc_input_value.replace(' ', '').replace('.', ','))
         replacements_obj.update_attributes(kc_selected_value=self.kc_selected_value + ('0' if len(self.kc_selected_value.split(',')[1]) == 1 else ''))
-        replacements_obj.update_attributes(fio_input_value = self.fio_input_value)
-        replacements_obj.update_attributes(fio_representative_input_value = self.fio_representative_input_value)
+        replacements_obj.update_attributes(fio_input_value = re.sub(r'"(.*?)"', r'«\1»', self.fio_input_value) )
+        replacements_obj.update_attributes(fio_representative_input_value = re.sub(r'"(.*?)"', r'«\1»', self.fio_representative_input_value))
         replacements_obj.update_attributes(request_adress = self.request_adress)
         replacements_obj.update_attributes(num_incoming_input_value = self.num_incoming_input_value)
         replacements_obj.update_attributes(request_date_value = self.request_date_value.strftime('%d.%m.%Y'))
