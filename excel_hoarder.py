@@ -113,7 +113,9 @@ class ExcelHoarder:
     def process_percents_and_rounding(self, key, value):
         if key in ['<Кадастровая стоимость 2023>']:
             return value+',00'
-        if key in ['<Внешнее устаревание>','<Накопленный износ>','Степень готовности ЕГРН','Степень готовности в п. 5.3']:
+        if key in ['<Накопленный износ>',]:
+            return str(int(round(float(value)*100,0)))
+        if key in ['<Внешнее устаревание>','Степень готовности ЕГРН','Степень готовности в п. 5.3']:
             return str(round(float(value)*100, 2))
         elif key in ['<УПКС 2023>','<Затраты на замещение / воспроизводство с учетом ПП и ДКЗ>']:
             return str(round(float(value), 2))
